@@ -1,29 +1,21 @@
 <?php
-//定义一个常量，存储token
-define("TOKEN","hello");
-//获取微信服务器get请求的4个参数
-$signature = $_GET['signature'];
-$timestamp = $_GET['timestamp'];
-$nonce = $_GET['nonce'];
-$echostr = $_GET['echostr'];
-//定义一个数组，存储三个参数
-$tempArr = array($timestamp,$nonce,TOKEN);
-//因为数组存放的数组元素的顺序是不一样的，所以要进行排序
-sort($tempArr,SORT_STRING);
-
-//将数组转换成字符串
-$tmpStr = implode($tempArr);
-
-//进行sha1加密算法
-$tmpStr = sha1($tmpStr);
-
-//判断请求是否来自微信服务器：对比$tmpStr和$signature
-
-if($tmpStr==$signature){
-	echo $echostr;
-}
-
-
+//获得参数 signature nonce token timestamp echostr
+    $nonce     = $_GET['nonce'];
+    $token     = 'hello';
+    $timestamp = $_GET['timestamp'];
+    $echostr   = $_GET['echostr'];
+    $signature = $_GET['signature'];
+    //形成数组，然后按字典序排序
+    $array = array();
+    $array = array($nonce, $timestamp, $token);
+    sort($array);
+    //拼接成字符串,sha1加密 ，然后与signature进行校验
+    $str = sha1( implode( $array ) );
+    if( $str == $signature && $echostr ){
+        //第一次接入weixin api接口的时候
+        echo  $echostr;
+        exit;
+    }
 
 
 
