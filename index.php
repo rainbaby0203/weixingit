@@ -1,6 +1,8 @@
 <?php
 //定义一个常量，存储token
 define("TOKEN","hello");
+
+
 //获取微信服务器get请求的4个参数
 $signature = $_GET['signature'];
 $timestamp = $_GET['timestamp'];
